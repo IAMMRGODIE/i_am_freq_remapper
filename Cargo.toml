@@ -1,0 +1,23 @@
+[package]
+name = "i_am_freq_remapper"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+nih_plug_egui = { path = "../../nih_plug_egui"}
+nih_plug = { path = "../../", features = ["assert_process_allocs", "standalone"]  }
+rustfft = "6.4.0"
+dirs = "6.0.0"
+time = "0.3.41"
+rhai = { version = "1.22.2", features = ["f32_float", "sync"] }
+lazy_static = "1.5.0"
+cfg-if = "1.0.3"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+default = ["en_us"]
+zh_cn_support = []
+zh_cn = ["zh_cn_support"]
+en_us = []
