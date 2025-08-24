@@ -55,6 +55,8 @@ en_us = []
 很直白的多语言 feature，不过需要注意的是使用 `zh_cn_support` 时需要字体文件，但是，仓库并没有包含字体文件，所以你需要修改 `lib.rs` 中的 `FONT` 
 常量为你自己的字体文件。 `Release` 中我们使用的是 [霞骛新晰黑](https://github.com/lxgw/LxgwNeoXiHei)
 
+开启单个 feature 的话会编译对应语言的版本，如果你开启了两个 feature 则会编译多语言版本。
+
 ## 已知问题 & 可能的更新方向
 
 - [ ] 解决脚本语言开销带来的高 CPU 占用
@@ -65,3 +67,4 @@ en_us = []
 
 
 GPLv3, 派生自 `nih_plug`.
+
