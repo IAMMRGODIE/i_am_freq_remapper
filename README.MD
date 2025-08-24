@@ -6,7 +6,8 @@
 
 ### 安装
 
-在 `Release` 中下载 vst3 文件后将其放到 `C:\Program Files\Common Files\VST3`（必须是这个路径).
+`x86_64-win` 平台下在 `Release` 中下载 vst3 文件后将其放到 `C:\Program Files\Common Files\VST3`（必须是这个路径).
+其他平台可能需要你参考后续编译条目自行编译
 
 ### 使用
 
@@ -67,4 +68,5 @@ en_us = []
 
 
 GPLv3, 派生自 `nih_plug`.
+
 
