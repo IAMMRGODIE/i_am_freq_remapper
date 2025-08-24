@@ -34,9 +34,11 @@
 在右侧你可以设置四个可控制参数 `a`、`b`、`c`、`d`. 你也可以通过 `out gain` / `输出增益` 来调整输出增益；通过 `window_size` / `FFT 窗长` 设置 FFT 的窗口长度。
 
 插件还提供了两个高级参数，他们会影响窗函数，具体作用见如下公式：
+
 $$
 W[i] = F - (1 - F) \cdot \cos\left( \frac{2\pi}{N} [(i + \Delta) \operatorname{mod} N] \right)
 $$
+
 其中 $F$ 是 `window factor` / `窗口参数` 而 $\Delta$ 是 `window offset` / `窗口延迟`，$N$ 是 `window_size` / `FFT 窗长`。
 ## 编译
 
@@ -68,5 +70,6 @@ en_us = []
 
 
 GPLv3, 派生自 `nih_plug`.
+
 
 
