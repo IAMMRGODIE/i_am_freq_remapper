@@ -39,7 +39,7 @@ $$
 W[i] = F - (1 - F) \cdot \cos\left( \frac{2\pi}{N} [(i + \Delta) \space \text{mod} \space N] \right)
 $$
 
-其中 $F$ 是 `window factor` / `窗口参数` 而 $\Delta$ 是 `window offset` / `窗口延迟`，$N$ 是 `window_size` / `FFT 窗长`。
+其中 `F` 是 `window factor` / `窗口参数` 而 `Δ` 是 `window offset` / `窗口延迟`，`N` 是 `window_size` / `FFT 窗长`。
 ## 编译
 
 如果你想直接编译的话大概率会报错，因为我没有使用 github 链接填写 nih_plug 作为依赖，所以你首先需要修改进入 `Cargo.toml` 修改 
@@ -70,8 +70,3 @@ en_us = []
 
 
 GPLv3, 派生自 `nih_plug`.
-
-
-
-
-
