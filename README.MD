@@ -36,7 +36,7 @@
 插件还提供了两个高级参数，他们会影响窗函数，具体作用见如下公式：
 
 $$
-W[i] = F - (1 - F) \cdot \cos\left( \frac{2\pi}{N} [(i + \Delta) \operatorname{mod} N] \right)
+W[i] = F - (1 - F) \cdot \cos\left( \frac{2\pi}{N} [(i + \Delta) \text{mod} N] \right)
 $$
 
 其中 $F$ 是 `window factor` / `窗口参数` 而 $\Delta$ 是 `window offset` / `窗口延迟`，$N$ 是 `window_size` / `FFT 窗长`。
@@ -70,6 +70,7 @@ en_us = []
 
 
 GPLv3, 派生自 `nih_plug`.
+
 
 
 
