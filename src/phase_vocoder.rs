@@ -1,3 +1,4 @@
+use rhai::packages::Package;
 use std::hash::BuildHasher;
 use std::hash::RandomState;
 use rhai::Scope;
@@ -9,11 +10,16 @@ use crate::ring_buffer::RingBuffer;
 use rustfft::Fft;
 use rustfft::num_complex::Complex;
 use crate::Arc;
+use rhai_rand::RandomPackage;
 
 const OVERLAP_RATIO: usize = 4;
 
 lazy_static::lazy_static! {
-	static ref RHAI_ENGINE: Engine = Engine::new();
+	static ref RHAI_ENGINE: Engine = {
+		let mut engine = Engine::new();
+		engine.register_global_module(RandomPackage::new().as_shared_module());
+		engine
+	};
 	static ref HASHER: RandomState = RandomState::new();
 	static ref EMPTY_HASH: u64 = HASHER.hash_one("");
 }
