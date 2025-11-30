@@ -1,6 +1,7 @@
 pub mod phase_vocoder;
 pub mod ring_buffer;
 
+use std::path::PathBuf;
 use time::OffsetDateTime;
 use std::sync::RwLock;
 use crate::egui::Vec2;
@@ -17,6 +18,20 @@ const WINDOW_SIZE: usize = 2048;
 
 #[cfg(feature = "zh_cn_support")]
 const FONT: &[u8; 7094212] = include_bytes!("../LXGWNeoXiHei.ttf");
+
+lazy_static::lazy_static! {
+	static ref PATH_TO_READ: PathBuf = {
+		if let Some(mut path) = dirs::document_dir() {
+			path.push("mapper.rhai");
+			path
+		}else if let Ok(mut path) = std::fs::canonicalize(".") {
+			path.push("mapper.rhai");
+			path
+		}else {
+			PathBuf::from(".")
+		}
+	};
+}
 
 struct Interface {
 	pub params: Arc<Arguments>,
@@ -249,7 +264,7 @@ impl Plugin for Interface {
 			#[cfg(feature = "zh_cn_support")]
 			{
 				let mut fonts = egui::FontDefinitions::default();
-				fonts.font_data.insert("lnxh".to_string(), egui::FontData::from_static(FONT));
+				fonts.font_data.insert("lnxh".to_string(), egui::FontData::from_static(FONT).into());
 				fonts.families.get_mut(&egui::FontFamily::Proportional).unwrap().insert(0, "lnxh".to_string());
 				fonts.families.get_mut(&egui::FontFamily::Monospace).unwrap().push("lnxh".to_string());
 				_ctx.set_visuals(egui::Visuals {
@@ -262,7 +277,6 @@ impl Plugin for Interface {
 			egui::CentralPanel::default().show(ctx, |ui| {
 				cfg_if::cfg_if! {
 					if #[cfg(all(feature = "en_us", feature = "zh_cn"))] {
-						
 							egui::TopBottomPanel::top("language settings").show(ctx, |ui| {
 								ui.allocate_space(Vec2::new(ui.available_width(), 4.0));
 								ui.horizontal(|ui| {
@@ -340,16 +354,15 @@ fn en_us_ui(
 			ui.allocate_space(Vec2::new(ui.available_width(), 3.0));
 			ui.label("Mapper Pannel");
 			ui.separator();
-			ui.label("Will read map script from `Documents/mapper.rhai`");
+			ui.label(format!("Will read map script from `{}`", PATH_TO_READ.to_string_lossy()));
 			ui.allocate_space(Vec2::new(0.0, 1.0));
 			ui.horizontal(|ui| {
 				if ui.button("Load").clicked() {
-					if let Some(mut path) = dirs::document_dir() {
-						path.push("mapper.rhai");
-						let code = std::fs::read_to_string(path).map_err(|err| format!("{}", err));
-						*params.map_code.write().unwrap() = code;
-						*params.date.write().unwrap() = OffsetDateTime::now_utc().to_string();
-					}
+					let path = &*PATH_TO_READ;
+
+					let code = std::fs::read_to_string(path).map_err(|err| format!("{}", err));
+					*params.map_code.write().unwrap() = code;
+					*params.date.write().unwrap() = OffsetDateTime::now_utc().to_string();
 				}
 				if ui.button("Clear (Double Click)").double_clicked() {
 					*params.map_code.write().unwrap() = Ok(String::new());
@@ -455,16 +468,15 @@ fn zh_cn_ui(
 			ui.allocate_space(Vec2::new(ui.available_width(), 3.0));
 			ui.label("映射器边栏");
 			ui.separator();
-			ui.label("将会从 `文档/mapper.rhai` 读取映射脚本");
+			ui.label(format!("将会从 `{}` 读取映射脚本", PATH_TO_READ.to_string_lossy()));
 			ui.allocate_space(Vec2::new(0.0, 1.0));
 			ui.horizontal(|ui| {
 				if ui.button("加载").clicked() {
-					if let Some(mut path) = dirs::document_dir() {
-						path.push("mapper.rhai");
-						let code = std::fs::read_to_string(path).map_err(|err| format!("{}", err));
-						*params.map_code.write().unwrap() = code;
-						*params.date.write().unwrap() = OffsetDateTime::now_utc().to_string();
-					}
+					let path = &*PATH_TO_READ;
+					// path.push("mapper.rhai");
+					let code = std::fs::read_to_string(path).map_err(|err| format!("{}", err));
+					*params.map_code.write().unwrap() = code;
+					*params.date.write().unwrap() = OffsetDateTime::now_utc().to_string();
 				}
 				if ui.button("清空 (双击)").double_clicked() {
 					*params.map_code.write().unwrap() = Ok(String::new());
